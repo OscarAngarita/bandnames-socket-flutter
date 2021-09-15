@@ -7,9 +7,9 @@ class Band {
   int votes;
 
   Band({
-    required this.id,
-    required this.name,
-    required this.votes
+     this.id,
+     this.name,
+     this.votes
   });
 
   factory Band.fromMap( Map<String, dynamic> obj) 
