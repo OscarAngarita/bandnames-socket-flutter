@@ -10,6 +10,13 @@ enum ServerStatus {
 class SocketService with ChangeNotifier {
 
   ServerStatus _serverStatus = ServerStatus.Connecting;
+  IO.Socket _socket;
+
+  ServerStatus get serverStatus => this._serverStatus;
+  
+  IO.Socket get socket => this._socket;
+
+  Function get emit => this._socket.emit;
 
 
   SocketService() {
@@ -19,18 +26,32 @@ class SocketService with ChangeNotifier {
   void _initConfig() {
 
     // Dart client
-    IO.Socket socket = IO.io('http://192.168.0.10:3000/', {
+    this._socket = IO.io('http://192.168.0.3:3000/', {
       'transports': ['websocket'],
       'autoConnect': true
 
     });
-    print('hey');
-    socket.onConnect((_) {
+    
+    this._socket.onConnect((_) {
       print('connect');
+      this._serverStatus = ServerStatus.Online;
+      notifyListeners();
     });
 
+    
+    this._socket.onDisconnect((_) {
+      print('disconnect');
+      this._serverStatus = ServerStatus.Offline;
+      notifyListeners();
+    });
 
-    socket.on('disconnect', (_) => print('disconnect'));
+    // this._socket.on('nuevo-mensaje', (payload) {
+    //   // print('nuevo-mensaje: $payload');
+    //   print('nuevo-mensaje:');
+    //   if (payload['nombre'] != null) print('nombre: ' + payload['nombre']);  //Forma 1 de evaluar nulo
+    //   print('mensaje: ' + (payload['mensaje'] ?? '')); //Forma 2 de evaluar nulo
+    //   print(payload.containsKey('mensaje2') ? payload['mensaje2'] : 'No hay'); //Forma 3 de evaluar nulo
+    // });
 
     // socket.connect();
   }
