@@ -44,15 +44,5 @@ class SocketService with ChangeNotifier {
       this._serverStatus = ServerStatus.Offline;
       notifyListeners();
     });
-
-    // this._socket.on('nuevo-mensaje', (payload) {
-    //   // print('nuevo-mensaje: $payload');
-    //   print('nuevo-mensaje:');
-    //   if (payload['nombre'] != null) print('nombre: ' + payload['nombre']);  //Forma 1 de evaluar nulo
-    //   print('mensaje: ' + (payload['mensaje'] ?? '')); //Forma 2 de evaluar nulo
-    //   print(payload.containsKey('mensaje2') ? payload['mensaje2'] : 'No hay'); //Forma 3 de evaluar nulo
-    // });
-
-    // socket.connect();
   }
 }
